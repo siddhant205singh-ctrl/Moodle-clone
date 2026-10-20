@@ -1,0 +1,178 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Global resets & Moodle base ───────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { font-size: 14px; }
+
+body {
+  font-family: "Century Gothic", CenturyGothic, AppleGothic, Arial, Helvetica, sans-serif;
+  font-size: 0.8125rem; /* 13px */
+  color: #333;
+  background: #f4f4f4;
+  margin: 0;
+  line-height: 1.5;
+}
+
+a {
+  color: #1177d1;
+  text-decoration: none;
+}
+a:hover { text-decoration: underline; color: #0f5fa8; }
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  color: #333;
+  line-height: 1.3;
+}
+
+/* ── Moodle block component ─────────────────────────────────── */
+@layer components {
+
+  /* The white content wrapper used on all inner pages */
+  .moodle-page {
+    @apply max-w-[1180px] mx-auto px-3 py-4;
+  }
+
+  /* Moodle-style block/panel */
+  .moodle-block {
+    background: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+
+  .moodle-block-header {
+    background: #f7f7f7;
+    border-bottom: 1px solid #dee2e6;
+    padding: 8px 14px;
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: #444;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .moodle-block-body {
+    padding: 12px 14px;
+  }
+
+  /* Moodle category tree item */
+  .cat-item {
+    display: flex;
+    align-items: center;
+    padding: 5px 8px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 0.8125rem;
+    color: #333;
+  }
+  .cat-item:hover { background: #f0f0f0; }
+  .cat-item a { color: #1177d1; }
+  .cat-item a:hover { text-decoration: underline; }
+
+  /* Moodle course card */
+  .course-card {
+    background: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    overflow: hidden;
+    transition: box-shadow 0.15s;
+  }
+  .course-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,.15); }
+
+  /* Moodle button styles */
+  .btn-primary {
+    background: #1177d1;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    padding: 6px 14px;
+    font-size: 0.8125rem;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.15s;
+  }
+  .btn-primary:hover { background: #0f5fa8; }
+
+  .btn-orange {
+    background: #ff6600;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    padding: 6px 14px;
+    font-size: 0.8125rem;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.15s;
+  }
+  .btn-orange:hover { background: #e05500; }
+
+  .btn-green {
+    background: #5f7a3a;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    padding: 6px 14px;
+    font-size: 0.8125rem;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.15s;
+  }
+  .btn-green:hover { background: #4d6530; }
+
+  /* Moodle form input */
+  .moodle-input {
+    border: 1px solid #ced4da;
+    border-radius: 3px;
+    padding: 6px 10px;
+    font-size: 0.8125rem;
+    font-family: inherit;
+    color: #333;
+    background: #fff;
+    width: 100%;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .moodle-input:focus {
+    outline: none;
+    border-color: #1177d1;
+    box-shadow: 0 0 0 2px rgba(17,119,209,.2);
+  }
+
+  /* Breadcrumb nav */
+  .moodle-breadcrumb {
+    font-size: 0.75rem;
+    color: #666;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 12px;
+    padding: 6px 0;
+  }
+
+  /* Activity list item in course page */
+  .activity-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 14px;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 0.8125rem;
+  }
+  .activity-item:last-child { border-bottom: none; }
+  .activity-item:hover { background: #fafafa; }
+  .activity-item a { color: #1177d1; }
+  .activity-item a:hover { text-decoration: underline; }
+
+}
+
+/* ── Scrollbar ───────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: #f4f4f4; }
+::-webkit-scrollbar-thumb { background: #bbb; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #999; }
