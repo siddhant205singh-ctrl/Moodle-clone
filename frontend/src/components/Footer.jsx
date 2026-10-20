@@ -12,9 +12,9 @@ export default function Footer() {
               <div style={{ marginBottom: '14px' }}>
                 <a href="http://lms.kiet.edu/moodle/" target="_blank" rel="noreferrer">
                   <img
-                    src="/logo.png"
+                    src="/kiet-logo.png"
                     width="100" height="100" alt="KIET LMS"
-                    style={{ borderRadius: '4px', objectFit: 'contain' }}
+                    style={{ objectFit: 'contain' }}
                   />
                 </a>
               </div>
