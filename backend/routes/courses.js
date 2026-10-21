@@ -1,5 +1,34 @@
 const router = require('express').Router();
 const Course = require('../models/Course');
+const auth   = require('../middleware/auth');
+const User   = require('../models/User');
+
+// GET /api/courses/teaching  — courses taught by the logged-in faculty (protected)
+// Must be BEFORE /:id to avoid being swallowed by that route
+router.get('/teaching', auth, async (req, res) => {
+  try {
+    if (!['faculty', 'admin'].includes(req.user.role)) {
+      return res.status(403).json({ message: 'Faculty only' });
+    }
+    const user = await User.findById(req.user.userId).select('name').lean();
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    const courses = await Course.find({ instructor: user.name })
+      .select('slug code title instructor color category enrolledUsers topics')
+      .populate('category', 'name slug')
+      .lean();
+
+    // Attach enrolled student count
+    const result = courses.map(c => ({
+      ...c,
+      enrolledCount: c.enrolledUsers?.length || 0,
+    }));
+
+    res.json(result);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
 
 // GET /api/courses/search?q=  — must be BEFORE /:id to avoid conflict
 router.get('/search', async (req, res) => {

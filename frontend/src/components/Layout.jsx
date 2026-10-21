@@ -35,7 +35,7 @@ export default function Layout({ children, fullWidthSlot }) {
         </div>
 
         {/* Right content — fills all remaining space */}
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0, overflow: 'hidden' }}>
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0, overflow: 'auto' }}>
           <Header onMenuToggle={() => setDrawerOpen(true)} />
           <Drawer isOpen={drawerOpen} onClose={() => setDrawerOpen(false)} />
           <main style={{ flex: 1 }}>

@@ -3,6 +3,46 @@ const Submission = require('../models/Submission');
 const Assignment = require('../models/Assignment');
 const auth = require('../middleware/auth');
 
+// GET /api/submissions/assignment/:assignmentId/all
+// — faculty/admin: see ALL submissions for an assignment
+router.get('/assignment/:assignmentId/all', auth, async (req, res) => {
+  try {
+    if (!['faculty', 'admin'].includes(req.user.role)) {
+      return res.status(403).json({ message: 'Faculty only' });
+    }
+    const subs = await Submission.find({ assignment: req.params.assignmentId })
+      .populate('student', 'name username studentId department')
+      .populate('assignment', 'title dueDate maxScore')
+      .sort({ updatedAt: -1 })
+      .lean();
+    res.json(subs);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// PATCH /api/submissions/:id/grade  — faculty grades a submission
+router.patch('/:id/grade', auth, async (req, res) => {
+  try {
+    if (!['faculty', 'admin'].includes(req.user.role)) {
+      return res.status(403).json({ message: 'Faculty only' });
+    }
+    const { grade } = req.body;
+    if (grade == null) return res.status(400).json({ message: 'grade is required' });
+    const sub = await Submission.findByIdAndUpdate(
+      req.params.id,
+      { grade, gradedBy: req.user.userId, gradedAt: new Date() },
+      { new: true }
+    )
+      .populate('student', 'name username studentId')
+      .lean();
+    if (!sub) return res.status(404).json({ message: 'Submission not found' });
+    res.json(sub);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 // GET /api/submissions/assignment/:assignmentId/me
 // — current student's own submission for an assignment
 router.get('/assignment/:assignmentId/me', auth, async (req, res) => {

@@ -64,4 +64,23 @@ router.post('/', auth, async (req, res) => {
   }
 });
 
+// PUT /api/assignments/:id  — update assignment (faculty/admin only)
+router.put('/:id', auth, async (req, res) => {
+  try {
+    if (!['faculty', 'admin'].includes(req.user.role)) {
+      return res.status(403).json({ message: 'Only faculty can edit assignments' });
+    }
+    const { title, description, dueDate, maxScore } = req.body;
+    const assignment = await Assignment.findByIdAndUpdate(
+      req.params.id,
+      { title, description, dueDate, maxScore },
+      { new: true, runValidators: true }
+    ).populate('course', 'slug title code instructor');
+    if (!assignment) return res.status(404).json({ message: 'Assignment not found' });
+    res.json(assignment);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
+
 module.exports = router;
